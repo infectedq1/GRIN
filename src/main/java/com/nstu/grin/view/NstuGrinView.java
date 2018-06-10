@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class NstuGrinView extends JFrame implements GrinViewInterface {
     private GrinPresenterInterface presenter;
+    private GrinWindow grinWindow;
+    private ToolbarsPanel toolbarsPanel;
 
     public void setPresenter(GrinPresenterInterface pres) {
         presenter = pres;
@@ -19,14 +21,21 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
 
     public void createUI()
     {
-        JFrame grinFrame = new JFrame("GRIN");
+        setTitle("GRIN");
         JPanel grinPanel = new JPanel(new BorderLayout());
-        grinFrame.setContentPane(grinPanel);
+        grinWindow = new GrinWindow();
+        grinPanel.add(grinWindow,BorderLayout.SOUTH);
+        toolbarsPanel = new ToolbarsPanel();
+        grinPanel.add(toolbarsPanel, BorderLayout.NORTH);
+
+
+
         grinPanel.setBackground(Color.white);
-        grinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        grinFrame.setBounds(100,500,500,300);
-        grinFrame.setVisible(true);
-        grinFrame.setLocationRelativeTo(null);
+        setContentPane(grinPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+        setLocationRelativeTo(null);
+        pack();
     }
 
 
