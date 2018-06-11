@@ -1,5 +1,6 @@
 package com.nstu.grin.view;
 
+import com.nstu.grin.entities.OperationButton;
 import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.interfaces.GrinPresenterInterface;
 import com.nstu.grin.interfaces.GrinViewInterface;
@@ -27,8 +28,8 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         grinWindow = new GrinWindow();
         grinPanel.add(grinWindow,BorderLayout.SOUTH);
         toolbarsPanel = new ToolbarsPanel();
-        toolbarsPanel.getWindowToolbar().setOnButtonClickListener(this::windowToolbarButtonListener);
-        toolbarsPanel.getOperationsToolbar().setOnButtonClickListener(this::operationsToolbarButtonListener);
+        toolbarsPanel.setToolbarButtonsListener(this::windowToolbarButtonListener);
+        toolbarsPanel.setOperationsButtonsListener(this::operationsToolbarButtonListener);
         grinPanel.add(toolbarsPanel, BorderLayout.NORTH);
         grinPanel.setBackground(Color.white);
         setContentPane(grinPanel);
@@ -37,7 +38,7 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         setLocationRelativeTo(null);
         pack();
     }
-    public void windowToolbarButtonListener (ToolbarButton btn) {
+    private void windowToolbarButtonListener (ToolbarButton btn) {
         switch (btn){
             case RED:
                 grinWindow.setColor(Color.RED);
@@ -50,7 +51,7 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
                 break;
         }
     }
-    public void operationsToolbarButtonListener (ToolbarButton btn) {
+    private void operationsToolbarButtonListener (OperationButton btn) {
 
     }
 

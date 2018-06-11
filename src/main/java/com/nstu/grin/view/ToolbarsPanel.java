@@ -1,5 +1,9 @@
 package com.nstu.grin.view;
 
+import com.nstu.grin.entities.OperationButton;
+import com.nstu.grin.entities.ToolbarButton;
+import com.nstu.grin.interfaces.OnButtonClickListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,12 +11,12 @@ public class ToolbarsPanel extends JPanel {
     private OperationsToolbar operationsToolbar;
     private WindowToolbar windowToolbar;
 
-    public OperationsToolbar getOperationsToolbar(){
-        return operationsToolbar;
+    public void setOperationsButtonsListener(OnButtonClickListener<OperationButton> operationsButtonsListener){
+        operationsToolbar.setOnButtonClickListener(operationsButtonsListener);
     }
 
-    public WindowToolbar getWindowToolbar(){
-        return windowToolbar;
+    public void setToolbarButtonsListener(OnButtonClickListener<ToolbarButton> toolbarButtonsListener){
+        windowToolbar.setOnButtonClickListener(toolbarButtonsListener);
     }
 
     public ToolbarsPanel (){
