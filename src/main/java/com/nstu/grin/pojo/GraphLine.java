@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GraphLine {
     private List<Point> points;
+    private String name = "";
 
     public GraphLine(List<Point> points) {
         this.points = points;
@@ -24,5 +25,13 @@ public class GraphLine {
 
     public void setPoints(List<Point> points) {
         this.points = points;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
