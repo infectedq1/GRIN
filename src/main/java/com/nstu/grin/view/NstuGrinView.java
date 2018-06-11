@@ -1,6 +1,7 @@
 package com.nstu.grin.view;
 
 import com.nstu.grin.entities.OperationButton;
+import com.nstu.grin.entities.RequiresEDT;
 import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.interfaces.GrinPresenterInterface;
 import com.nstu.grin.interfaces.GrinViewInterface;
@@ -18,7 +19,7 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         presenter = pres;
     }
 
-    @Override
+    @Override @RequiresEDT
     public void drawGraphic(Graphic graphic) {
         grinWindow.drawGraphic(graphic);
     }
