@@ -1,6 +1,5 @@
 package com.nstu.grin.interfaces;
 
-import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.pojo.Graphic;
 
 public interface GrinViewInterface {

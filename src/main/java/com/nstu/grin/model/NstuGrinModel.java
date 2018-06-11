@@ -8,8 +8,8 @@ public class NstuGrinModel implements GrinModelInterface {
     private GrinPresenterInterface presenter;
 
     @Override
-    public Graphic getGraphic() {
-        return Parser.parse("C:\\Users\\hekpo\\Downloads\\Telegram Desktop\\export.csv");
+    public Graphic getGraphic(String fileName) {
+        return Parser.parse(fileName);
     }
 
     @Override

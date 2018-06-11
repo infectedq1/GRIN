@@ -1,26 +1,25 @@
 package com.nstu.grin.view;
 
-import com.nstu.grin.entities.OperationButton;
 import com.nstu.grin.entities.RequiresEDT;
-import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.interfaces.GrinPresenterInterface;
 import com.nstu.grin.interfaces.GrinViewInterface;
 import com.nstu.grin.pojo.GraphLine;
 import com.nstu.grin.pojo.Graphic;
+import com.nstu.grin.entities.CustomButton;
 import com.nstu.grin.utils.Utils;
 import com.nstu.grin.view.pojo.ColorizedGraphLine;
 import com.nstu.grin.view.pojo.ColorizedGraphic;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-import static javax.swing.SwingConstants.SOUTH;
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 
 public class NstuGrinView extends JFrame implements GrinViewInterface {
     private GrinPresenterInterface presenter;
     private GrinWindow grinWindow;
-    private ToolbarsPanel toolbarsPanel;
+    private Toolbar toolbar;
     private LegendPanel legendPanel;
 
     public void setPresenter(GrinPresenterInterface pres) {
@@ -55,18 +54,18 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
             e.printStackTrace();
         }
         setTitle("GRIN");
-//        JPanel grinPanel = new JPanel(new BorderLayout());
         JPanel grinPanel = new JPanel(new BorderLayout());
 
-        toolbarsPanel = new ToolbarsPanel();
-        toolbarsPanel.setToolbarButtonsListener(this::windowToolbarButtonListener);
-        toolbarsPanel.setOperationsButtonsListener(this::operationsToolbarButtonListener);
-        grinPanel.add(toolbarsPanel, BorderLayout.NORTH);
-
         grinWindow = new GrinWindow();
-        grinPanel.add(grinWindow);
+        grinPanel.add(grinWindow, BorderLayout.SOUTH);
 
-        grinPanel.add(legendPanel = new LegendPanel(), BorderLayout.SOUTH);
+        toolbar = new Toolbar();
+        toolbar.setOnButtonClickListener(this::toolbarButtonListener);
+
+
+        grinPanel.add(toolbar, BorderLayout.NORTH);
+
+        grinPanel.setBackground(Color.white);
 
         setContentPane(grinPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -74,13 +73,17 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         setLocationRelativeTo(null);
         setResizable(false);
         pack();
-        presenter.onRefresh();
-    }
-    private void windowToolbarButtonListener (ToolbarButton btn) {
-
     }
 
-    private void operationsToolbarButtonListener (OperationButton btn) {
+    private void toolbarButtonListener(CustomButton btn) {
+        switch (btn) {
+            case OPEN_FILE:
+                JFileChooser fileChooser = new JFileChooser();
+                int ret = fileChooser.showDialog(null, "Open file");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    presenter.openFile(fileChooser.getSelectedFile().getAbsolutePath());
+                }
 
+        }
     }
 }
