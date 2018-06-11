@@ -14,10 +14,14 @@ import com.nstu.grin.view.pojo.ColorizedGraphic;
 import javax.swing.*;
 import java.awt.*;
 
+import static javax.swing.SwingConstants.SOUTH;
+import static javax.swing.SwingUtilities.updateComponentTreeUI;
+
 public class NstuGrinView extends JFrame implements GrinViewInterface {
     private GrinPresenterInterface presenter;
     private GrinWindow grinWindow;
     private ToolbarsPanel toolbarsPanel;
+    private LegendPanel legendPanel;
 
     public void setPresenter(GrinPresenterInterface pres) {
         presenter = pres;
@@ -34,6 +38,8 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
 
     @RequiresEDT
     private void drawColorizedGraphic(ColorizedGraphic graphic){
+        legendPanel.inflateLegend(graphic);
+        getContentPane().add(legendPanel, BorderLayout.SOUTH);
         grinWindow.drawGraphic(graphic);
     }
 
@@ -41,20 +47,26 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
 
     }
 
-    public void createUI()
-    {
+    public void createUI() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            updateComponentTreeUI(this);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         setTitle("GRIN");
+//        JPanel grinPanel = new JPanel(new BorderLayout());
         JPanel grinPanel = new JPanel(new BorderLayout());
-
-        grinWindow = new GrinWindow();
-        grinPanel.add(grinWindow,BorderLayout.SOUTH);
 
         toolbarsPanel = new ToolbarsPanel();
         toolbarsPanel.setToolbarButtonsListener(this::windowToolbarButtonListener);
         toolbarsPanel.setOperationsButtonsListener(this::operationsToolbarButtonListener);
-
         grinPanel.add(toolbarsPanel, BorderLayout.NORTH);
-        grinPanel.setBackground(Color.white);
+
+        grinWindow = new GrinWindow();
+        grinPanel.add(grinWindow);
+
+        grinPanel.add(legendPanel = new LegendPanel(), BorderLayout.SOUTH);
 
         setContentPane(grinPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -67,6 +79,7 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
     private void windowToolbarButtonListener (ToolbarButton btn) {
 
     }
+
     private void operationsToolbarButtonListener (OperationButton btn) {
 
     }
