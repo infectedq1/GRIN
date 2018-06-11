@@ -1,5 +1,7 @@
 package com.nstu.grin.utils;
 
+import java.awt.*;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -20,5 +22,14 @@ public class Utils {
         } else {
             alertAction.call();
         }
+    }
+
+    public static Color getRandomColor() {
+        Random random = new Random();
+        return new Color(
+                random.nextInt((256 - 128)) + 128,
+                random.nextInt((256 - 128) ) + 128,
+                random.nextInt((256 - 128)) + 128
+        );
     }
 }
