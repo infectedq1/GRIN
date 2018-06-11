@@ -13,4 +13,12 @@ public class Utils {
             consumer.accept(data);
         }
     }
+
+    public static <T> void safeAction(T data, Consumer<T> consumer, Action alertAction){
+        if (data != null){
+            consumer.accept(data);
+        } else {
+            alertAction.call();
+        }
+    }
 }
