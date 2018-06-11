@@ -17,7 +17,7 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         presenter = pres;
     }
 
-    @Override
+    @Override @RequiresEDT
     public void drawGraphic(Graphic graphic) {
         grinWindow.drawGraphic(graphic);
     }
