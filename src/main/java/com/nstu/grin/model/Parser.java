@@ -40,10 +40,13 @@ public class Parser {
                     }
                 }
             }
+            reader.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
         }
+
+
 
         return gr;
     }
