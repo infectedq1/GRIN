@@ -5,5 +5,5 @@ public interface GrinPresenterInterface {
 
     void setView(GrinViewInterface view);
 
-    void onRefresh();
+    void openFile(String fileName);
 }

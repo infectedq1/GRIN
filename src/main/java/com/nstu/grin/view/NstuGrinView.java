@@ -1,20 +1,18 @@
 package com.nstu.grin.view;
 
-import com.nstu.grin.entities.OperationButton;
-import com.nstu.grin.entities.RequiresEDT;
-import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.interfaces.GrinPresenterInterface;
 import com.nstu.grin.interfaces.GrinViewInterface;
 import com.nstu.grin.pojo.Graphic;
+import com.nstu.grin.entities.CustomButton;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
 public class NstuGrinView extends JFrame implements GrinViewInterface {
     private GrinPresenterInterface presenter;
     private GrinWindow grinWindow;
-    private ToolbarsPanel toolbarsPanel;
-
+    private Toolbar toolbar;
     public void setPresenter(GrinPresenterInterface pres) {
         presenter = pres;
     }
@@ -34,13 +32,14 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         JPanel grinPanel = new JPanel(new BorderLayout());
 
         grinWindow = new GrinWindow();
-        grinPanel.add(grinWindow,BorderLayout.SOUTH);
+        grinPanel.add(grinWindow, BorderLayout.SOUTH);
 
-        toolbarsPanel = new ToolbarsPanel();
-        toolbarsPanel.setToolbarButtonsListener(this::windowToolbarButtonListener);
-        toolbarsPanel.setOperationsButtonsListener(this::operationsToolbarButtonListener);
+        toolbar = new Toolbar();
+        toolbar.setOnButtonClickListener(this::toolbarButtonListener);
 
-        grinPanel.add(toolbarsPanel, BorderLayout.NORTH);
+
+        grinPanel.add(toolbar, BorderLayout.NORTH);
+
         grinPanel.setBackground(Color.white);
 
         setContentPane(grinPanel);
@@ -49,13 +48,18 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         setLocationRelativeTo(null);
         setResizable(false);
         pack();
-        presenter.onRefresh();
     }
-    private void windowToolbarButtonListener (ToolbarButton btn) {
 
-    }
-    private void operationsToolbarButtonListener (OperationButton btn) {
+    private void toolbarButtonListener(CustomButton btn) {
+        switch (btn) {
+            case OPEN_FILE:
+                JFileChooser fileChooser = new JFileChooser();
+                int ret = fileChooser.showDialog(null, "Open file");
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    presenter.openFile(fileChooser.getSelectedFile().getAbsolutePath());
+                }
 
+        }
     }
 
 }

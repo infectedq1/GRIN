@@ -16,7 +16,7 @@ public class NstuGrinPresenter implements GrinPresenterInterface {
     }
 
     @Override
-    public void onRefresh() {
-        view.drawGraphic(model.getGraphic());
+    public void openFile(String fileName) {
+        view.drawGraphic(model.getGraphic(fileName));
     }
 }
