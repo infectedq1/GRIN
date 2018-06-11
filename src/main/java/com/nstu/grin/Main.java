@@ -18,6 +18,9 @@ public class Main {
 
                     presenter.setModel(model);
                     presenter.setView(view);
+                    model.setPresenter(presenter);
+                    view.setPresenter(presenter);
+                    view.createUI();
                 }
             });
     }

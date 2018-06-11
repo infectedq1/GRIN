@@ -4,6 +4,7 @@ import com.nstu.grin.entities.OperationButton;
 import com.nstu.grin.entities.ToolbarButton;
 import com.nstu.grin.interfaces.GrinPresenterInterface;
 import com.nstu.grin.interfaces.GrinViewInterface;
+import com.nstu.grin.pojo.Graphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +18,13 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         presenter = pres;
     }
 
+    @Override
+    public void drawGraphic(Graphic graphic) {
+        grinWindow.drawGraphic(graphic);
+    }
+
     public NstuGrinView() {
-        createUI();
+
     }
 
     public void createUI()
@@ -42,19 +48,10 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         setLocationRelativeTo(null);
         setResizable(false);
         pack();
+        presenter.onRefresh();
     }
     private void windowToolbarButtonListener (ToolbarButton btn) {
-//        switch (btn){
-//            case RED:
-//                grinWindow.setColor(Color.RED);
-//                break;
-//            case BLUE:
-//                grinWindow.setColor(Color.BLUE);
-//                break;
-//            case GREEN:
-//                grinWindow.setColor(Color.GREEN);
-//                break;
-//        }
+
     }
     private void operationsToolbarButtonListener (OperationButton btn) {
 

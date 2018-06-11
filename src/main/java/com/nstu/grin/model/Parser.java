@@ -16,7 +16,7 @@ public class Parser {
         try {
             reader = new CSVReader(new FileReader(csv), ',');
         } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
             return null;
         }
 

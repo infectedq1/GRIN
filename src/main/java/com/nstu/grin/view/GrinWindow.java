@@ -2,13 +2,15 @@ package com.nstu.grin.view;
 
 import com.nstu.grin.pojo.GraphLine;
 import com.nstu.grin.pojo.Graphic;
+import com.nstu.grin.pojo.Point;
 import com.nstu.grin.utils.Utils;
-import com.sun.xml.internal.ws.message.DOMHeader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import static com.nstu.grin.utils.Utils.*;
 import static java.lang.Math.abs;
 
 public class GrinWindow extends JPanel {
@@ -24,13 +26,15 @@ public class GrinWindow extends JPanel {
     private int cellX;
     private int cellY;
 
+    private Graphic currentGraphic;
+
     private Color axisColor = new Color(0xFFFFFFFF);
     private Color backgroundColor = new Color(0xFF444444);
 
     private BufferedImage buffer;
 
     public GrinWindow () {
-        this(600, 600);
+        this(900, 900);
     }
 
     public GrinWindow(int width, int height) {
@@ -51,14 +55,25 @@ public class GrinWindow extends JPanel {
     }
 
     public void drawGraphic(Graphic graphic) {
-        Utils.safeAction(graphic, g -> {
-            int currentColor = getRandomColor();
-            g.getGraphLines().stream().map(GraphLine::getPoints).forEach(
-                    points -> points.forEach(
-                            point -> buffer.setRGB(toPixelX(point.getX()), toPixelY(point.getY()), currentColor)
-                    )
-            );
-        }, () -> {});
+        currentGraphic = safeCall(graphic, g -> {
+            Graphics graphics2D = buffer.createGraphics();
+            List<Point> points;
+            Point point0, point1;
+            int i;
+            for (GraphLine graphLine: g.getGraphLines()){
+                graphics2D.setColor(getRandomColor());
+                points = graphLine.getPoints();
+                for (i = 0; i < points.size() - 1; ++i){
+                    point0 = points.get(i);
+                    point1 = points.get(i + 1);
+                    graphics2D.drawLine(
+                        toPixelX(point0.getX()), toPixelY(point0.getY()),
+                        toPixelX(point1.getX()), toPixelY(point1.getY())
+                    );
+                }
+            }
+            return g;
+        });
         repaint();
     }
 
@@ -104,11 +119,11 @@ public class GrinWindow extends JPanel {
         return val <= 0 ? pixel + centerY : centerY - pixel;
     }
 
-    private int getRandomColor(){
+    private Color getRandomColor(){
         return new Color(
                 (int)(Math.random() * 256),
                 (int)(Math.random() * 256),
                 (int)(Math.random() * 256)
-        ).getRGB();
+        );
     }
 }
