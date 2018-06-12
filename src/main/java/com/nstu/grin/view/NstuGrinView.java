@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import static javax.swing.SwingUtilities.paintComponent;
 import static javax.swing.SwingUtilities.updateComponentTreeUI;
 
 public class NstuGrinView extends JFrame implements GrinViewInterface {
@@ -38,10 +39,12 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
     @RequiresEDT
     private void drawColorizedGraphic(ColorizedGraphic graphic){
         legendPanel.inflateLegend(graphic);
-        getContentPane().add(legendPanel, BorderLayout.SOUTH);
+        grinWindow.drawGraphic(graphic);
+        getContentPane().add(legendPanel, BorderLayout.WEST);
+        getContentPane().add(grinWindow, BorderLayout.CENTER);
+        pack();
         revalidate();
         repaint();
-        grinWindow.drawGraphic(graphic);
     }
 
     public NstuGrinView() {
