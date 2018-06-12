@@ -14,4 +14,9 @@ public class NstuGrinPresenter implements GrinPresenterInterface {
     public void setView(GrinViewInterface view) {
         this.view = view;
     }
+
+    @Override
+    public void openFile(String fileName) {
+        view.drawGraphic(model.getGraphic(fileName));
+    }
 }
