@@ -3,6 +3,8 @@ package com.nstu.grin.view;
 import com.nstu.grin.pojo.GraphLine;
 import com.nstu.grin.pojo.Graphic;
 import com.nstu.grin.pojo.Point;
+import com.nstu.grin.view.pojo.ColorizedGraphLine;
+import com.nstu.grin.view.pojo.ColorizedGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +28,7 @@ public class GrinWindow extends JPanel {
     private int cellX;
     private int cellY;
 
-    private Graphic currentGraphic;
+    private ColorizedGraphic currentGraphic;
 
     private Color axisColor = new Color(0xFFFFFFFF);
     private Color backgroundColor = new Color(0xFF444444);
@@ -69,15 +71,15 @@ public class GrinWindow extends JPanel {
         repaint();
     }
 
-    public void drawGraphic(Graphic graphic) {
+    public void drawGraphic(ColorizedGraphic graphic) {
         currentGraphic = safeCall(graphic, g -> {
             Graphics graphics2D = buffer.createGraphics();
             List<Point> points;
             Point point0, point1;
             int i;
-            for (GraphLine graphLine: g.getGraphLines()){
-                graphics2D.setColor(getRandomColor());
-                points = graphLine.getPoints();
+            for (ColorizedGraphLine graphLine: g.getColorizedGraphLines()){
+                graphics2D.setColor(graphLine.getColor());
+                points = graphLine.getGraphLine().getPoints();
                 for (i = 0; i < points.size() - 1; ++i){
                     point0 = points.get(i);
                     point1 = points.get(i + 1);
@@ -136,12 +138,7 @@ public class GrinWindow extends JPanel {
         return val <= 0 ? pixel + centerY : centerY - pixel;
     }
 
-    private Random random = new Random();
-    private Color getRandomColor() {
-        return new Color(
-                random.nextInt((256 - 128)) + 128,
-                random.nextInt((256 - 128) ) + 128,
-                random.nextInt((256 - 128)) + 128
-        );
+    public ColorizedGraphic getCurrentGraphic() {
+        return currentGraphic;
     }
 }
