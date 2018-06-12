@@ -39,6 +39,8 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
     private void drawColorizedGraphic(ColorizedGraphic graphic){
         legendPanel.inflateLegend(graphic);
         getContentPane().add(legendPanel, BorderLayout.SOUTH);
+        revalidate();
+        repaint();
         grinWindow.drawGraphic(graphic);
     }
 
@@ -57,15 +59,16 @@ public class NstuGrinView extends JFrame implements GrinViewInterface {
         JPanel grinPanel = new JPanel(new BorderLayout());
 
         grinWindow = new GrinWindow();
-        grinPanel.add(grinWindow, BorderLayout.SOUTH);
+        grinPanel.add(grinWindow, BorderLayout.CENTER);
 
         toolbar = new Toolbar();
         toolbar.setOnButtonClickListener(this::toolbarButtonListener);
 
 
         grinPanel.add(toolbar, BorderLayout.NORTH);
-
         grinPanel.setBackground(Color.white);
+
+        grinPanel.add(legendPanel = new LegendPanel(), BorderLayout.SOUTH);
 
         setContentPane(grinPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
